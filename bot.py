@@ -93,11 +93,17 @@ def respond(line):
     sender = getSender(line)
     msg = getMsg(line)
     
-    # commands
+    ##############################################
+    #                  commands
+    #############################################
+    
+    # kill the bot
     if get_cmd("go away") in msg:
         res = "Bye! [killed by " + sender + ", time of death: " + time.ctime() + "]"
         ircMessage(res)
         sys.exit("Received exit command from " + sender + " | time of death: " + time.ctime())
+        
+    # eval an expression with CEP
     elif get_cmd("eval") in msg:
         sbCmd = SB_HOME + "/bin/sbd --eval " + "'" + unEscapeCmd("eval", msg) + "'"
         print("COMMAND executed: " + sbCmd)
@@ -105,16 +111,10 @@ def respond(line):
         res = stdOut.read()
         print("RESPONSE: " + res)
         ircMessage(res, sender)
-    elif get_cmd("download") in msg:
-        # TODO:
-        c = httplib.HTTPSConnection("https://files.slack.com/files-pri/T029TKF5P-F029UFVBY/simple.sbapp", ircPort)
-        c.request("GET", "/")
-        response = c.getresponse()
-        print response.status, response.reason
-        data = response.read()
-        print data
 
-    # regular conversational chat
+    ###############################################
+    #           regular conversational chat
+    ##############################################
     else:
         res = "Hi," + sender + "! This is all I can say for now"
         if isDoctorActive():
@@ -151,6 +151,8 @@ def Initialize():
 Initialize()
 
 print("done init")
+
+#TODO: replace polling with some interrupt mechanism
 while True:
 
     data = irc.recv(1024)
