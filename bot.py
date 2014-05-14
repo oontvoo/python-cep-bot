@@ -1,5 +1,6 @@
-import socket, ssl, sys, urllib2, time, string, httplib
+import socket, ssl, sys, urllib2, time, string, httplib, os
 
+# server properties
 irc = ssl.wrap_socket(socket.socket())        
 ircServer = "<your irc server here>"
 ircChannel = "<your irc channel here>"
@@ -8,7 +9,11 @@ ircUser = "awesomebot"
 ircNick = "awesomebot"
 ircCKey = "."
 ircPass = "<password | needed for SSL>"
+
+# bot's states
 count = 0
+drActive = False
+SB_HOME = "/home/vynguye/repo/7.4.1_quickfix/branches/southstation/streambase"
 
 def rawSend(data):
     irc.send(data + "\r\n")
@@ -41,6 +46,9 @@ def GTFO(reason):
 def get_cmd(keyword):
     return "<>" + keyword
 
+def unEscapeCmd(cmdName, msg):
+    return string.split(msg, get_cmd(cmdName))[1].strip()
+
 def addressing_me(line):
     return ":" + ircNick + ":" in line or ":@" + ircNick + ":" in line
 
@@ -63,8 +71,8 @@ def getMsg(line):
         return None
 
 def isDoctorActive():
-    # TODO set up CEP engine
-    return False
+    global drActive
+    return drActive
 
 def getDoctorResponse(msg, sender):
     # TODO
@@ -90,8 +98,13 @@ def respond(line):
         res = "Bye! [killed by " + sender + ", time of death: " + time.ctime() + "]"
         ircMessage(res)
         sys.exit("Received exit command from " + sender + " | time of death: " + time.ctime())
-    elif get_cmd("LIST") in msg or get_cmd("list") in msg:
-        rawSend("LIST " + ircChannel)
+    elif get_cmd("eval") in msg:
+        sbCmd = SB_HOME + "/bin/sbd --eval " + "'" + unEscapeCmd("eval", msg) + "'"
+        print("COMMAND executed: " + sbCmd)
+        stdOut = os.popen(sbCmd)
+        res = stdOut.read()
+        print("RESPONSE: " + res)
+        ircMessage(res, sender)
     elif get_cmd("download") in msg:
         # TODO:
         c = httplib.HTTPSConnection("https://files.slack.com/files-pri/T029TKF5P-F029UFVBY/simple.sbapp", ircPort)
@@ -151,7 +164,6 @@ while True:
         rawSend("PONG")
 
     # welcome (back)
-    # vy.nguyen.0000!vy.nguyen.0000@irc.tinyspeck.com MODE #random +v vy.nguyen.0000 : active
     #welcome(data)
     
     # respond to humans
