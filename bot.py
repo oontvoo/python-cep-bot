@@ -100,9 +100,9 @@ def respond(line):
         print response.status, response.reason
         data = response.read()
         print data
-    else:
-        # regular conversational chat
 
+    # regular conversational chat
+    else:
         res = "Hi," + sender + "! This is all I can say for now"
         if isDoctorActive():
             res = getDoctorResponse(msg, sender)
