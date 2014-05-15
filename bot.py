@@ -17,7 +17,7 @@ ircPass = "<password | needed for SSL>"
 
 # bot's states
 count = 0
-drActive = True
+drActive = False
 SB_HOME = "/opt/streambase"
 
 # streambase properties
@@ -159,7 +159,7 @@ def respond(line):
     #           regular conversational chat
     ##############################################
     else:
-        res = "Hi," + sender + "! This is all I can say for now"
+        res = "Hi," + sender + "! The doctor is busy, so this is all I know how to say!"
         if isDoctorActive():
             res = getDoctorResponse(msg, sender)
         
@@ -175,10 +175,15 @@ def setUpDoctor():
     global client
     global URL
     global schema
+    global drActive
 
-    client = sb.Client(URL)
-    client.subscribe("OutputStream")
-    schema = client.getStreamProperties("InputStream").getSchema()
+    try:
+        client = sb.Client(URL)
+        client.subscribe("OutputStream")
+        schema = client.getStreamProperties("InputStream").getSchema()
+        drActive = True
+    except:
+        pass
     
 
 
