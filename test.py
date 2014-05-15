@@ -5,9 +5,10 @@
 import streambase as sb
 import os
 
+URL="sb://localhost:36179"
 DEFAULT_TIMEOUT = 500 #ms
 
-client = sb.Client("sb://localhost")
+client = sb.Client(URL)
 
 streams = client.listEntities(sb.EntityType.INPUT_STREAMS)
 for stream in streams:
@@ -29,7 +30,7 @@ client.enqueue("InputStream", tuple)
 
 ### deq
 print "PID: " + str(os.getpid())
-client2 = sb.Client("sb://localhost")
+client2 = client #sb.Client(URL)
 client2.subscribe("OutputStream")
 try:
     while True:
@@ -40,10 +41,12 @@ try:
         print("len: " + str(len(tuples)))
         for tuple in tuples:
             print("Dequeued tuple: " + str(tuple))
+            print("res: " + tuple.getString("response"))
+        break
 
 except KeyboardInterrupt, e:
     client2.close()
 
 
 client2.close()
-client.close()
+#client.close()

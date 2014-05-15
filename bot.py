@@ -1,4 +1,8 @@
-import socket, ssl, sys, urllib2, time, string, httplib, os
+# RUN these before running this script
+# export PYTHONPATH=/opt/streambase/lib64/python2.6
+# export STREAMBASE_HOME=/opt/streambase
+
+import socket, ssl, sys, urllib2, time, string, httplib, os, streambase as sb
 
 # server properties
 irc = ssl.wrap_socket(socket.socket())        
@@ -10,10 +14,17 @@ ircNick = "awesomebot"
 ircCKey = "."
 ircPass = "<password | needed for SSL>"
 
+
 # bot's states
 count = 0
-drActive = False
+drActive = True
 SB_HOME = "/home/vynguye/repo/7.4.1_quickfix/branches/southstation/streambase"
+
+# streambase properties
+URL="sb://localhost:36179"
+DEFAULT_TIMEOUT = 500 #ms 
+client = None
+schema = None
 
 def rawSend(data):
     irc.send(data + "\r\n")
@@ -75,8 +86,31 @@ def isDoctorActive():
     return drActive
 
 def getDoctorResponse(msg, sender):
-    # TODO
-    return None
+    global schema
+    global client
+    global DEFAULT_TIMEOUT
+
+    # enqueue
+    tuple = sb.Tuple(schema)
+    tuple.setString("sender", sender)
+    tuple.setString("msg", msg)
+
+    print("Enqueing " + str(tuple))
+    client.enqueue("InputStream", tuple)
+
+    # dequeue
+    result = sb.DequeueResult()
+    while result.getStatus() != sb.DequeueResult.GOOD:
+        result = client.dequeue(DEFAULT_TIMEOUT)
+        tuples = result.getTuples()
+        print("len: " + str(len(tuples)))
+    res = ""
+    for tuple in tuples:
+        print("Dequeued tuple: " + str(tuple))
+        print("res: " + tuple.getString("response"))
+        res = res + tuple.getString("response") + " \n"
+
+    return res;
 
 def welcome(line):
     if ": active" in line:
@@ -122,6 +156,17 @@ def respond(line):
 
         ircMessage(res, sender)
 
+def setUpDoctor():
+    global client
+    global URL
+    global schema
+
+    client = sb.Client(URL)
+    client.subscribe("OutputStream")
+    schema = client.getStreamProperties("InputStream").getSchema()
+    
+
+
 def setVariables():
     if len(sys.argv) != 5:
         sys.exit("Usage: python bot.by <hostname> <channle> <username> <password>")
@@ -137,7 +182,8 @@ def setVariables():
 
         global ircPass
         ircPass = sys.argv[4]
-        
+
+        setUpDoctor()
         
 def Initialize():
     setVariables()
