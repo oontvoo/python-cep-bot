@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<streambase-configuration xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.streambase.com/schemas/sbconf/">
+    <!--Include common configuration settings for the project.-->
+    <sb-include file="./sbd-common.sbconf"/>
+
+</streambase-configuration>

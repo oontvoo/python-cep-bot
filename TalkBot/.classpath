@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="com.streambase.sb.studio.jdt.clientTemplates.SBCLIENT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="com.streambase.sb.sbtest.LIBRARY_CONTAINER"/>
+	<classpathentry kind="src" path="java-src"/>
+	<classpathentry kind="src" path="eliza"/>
+	<classpathentry kind="lib" path="/home/vynguye/bot/bash-irc-bot/modules/talk/talk_bot.jar"/>
+	<classpathentry kind="output" path="java-bin"/>
+</classpath>
