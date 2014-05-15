@@ -1,0 +1,107 @@
+[
+    {
+        "name": "cambridge",
+        "morning":
+                [
+                    {
+                        "kendall": {
+                            "arrive": "7:25 AM",
+                            "depart": "7:30 AM"
+                        },
+                        "central": {
+                            "arrive": "7:35 AM",
+                            "depart": "7:40 AM"
+                        },
+                        "newton": {
+                            "arrive": "8:10 AM"
+                        }
+                    },
+                    {
+                        "kendall": {
+                            "arrive": "7:55 AM",
+                            "depart": "8:00 AM"
+                        },
+                        "central": {
+                            "arrive": "8:05 AM",
+                            "depart": "8:10 AM"
+                        },
+                        "newton": {
+                            "arrive": "8:55 AM"
+                        }
+                    },
+                    {
+                        "kendall": {
+                            "arrive": "8:50 AM",
+                            "depart": "8:55 AM"
+                        },
+                        "central": {
+                            "arrive": "9:00 AM",
+                            "depart": "9:05 AM"
+                        },
+                        "newton": {
+                            "arrive": "9:50 AM"
+                        }
+                    }
+                ],
+        "evening":
+                [
+                    {
+                        "newton": {
+                            "arrive": "5:25 PM",
+                            "depart": "5:30 PM"
+                        },
+                        "central": {
+                            "arrive": "6:15 PM"
+                        },
+                        "kendall": {
+                            "arrive": "6:20 PM"
+                        }
+                    },
+                    {
+                        "newton": {
+                            "arrive": "6:10 PM",
+                            "depart": "6:15 PM"
+                        },
+                        "central": {
+                            "arrive": "7:00 PM"
+                        },
+                        "kendall": {
+                            "arrive": "7:05 PM"
+                        }
+                    },
+                    {
+                        "newton": {
+                            "arrive": "6:50 PM",
+                            "depart": "6:55 PM"
+                        },
+                        "central": {
+                            "arrive": "7:40 PM"
+                        },
+                        "kendall": {
+                            "arrive": "7:45 PM"
+                        }
+                    }
+                ]
+    },
+    {
+        "name":"highlands",
+        "morning": [
+            "7:50 AM",
+            "8:10 AM",
+            "8:30 AM",
+            "8:50 AM",
+            "9:15 AM",
+            "9:35 AM",
+            "9:55 AM"
+        ],
+        "evening": [
+            "4:30 PM",
+            "4:50 PM",
+            "5:10 PM",
+            "5:35 PM",
+            "6:00 PM",
+            "6:25 PM",
+            "6:45 PM"
+        ]
+    }
+]

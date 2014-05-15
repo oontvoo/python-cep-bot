@@ -102,7 +102,7 @@ public class elizabot extends Operator implements Parameterizable {
 			Eliza convo = convos.get(sender);
 			if (convo == null) {
 				try {
-					convo = Eliza.getInstane();
+					convo = Eliza.getInstance();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

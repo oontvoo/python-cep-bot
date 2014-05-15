@@ -6,6 +6,6 @@
 	<classpathentry kind="con" path="com.streambase.sb.sbtest.LIBRARY_CONTAINER"/>
 	<classpathentry kind="src" path="java-src"/>
 	<classpathentry kind="src" path="eliza"/>
-	<classpathentry kind="lib" path="/home/vynguye/bot/bash-irc-bot/modules/talk/talk_bot.jar"/>
+	<classpathentry kind="lib" path="/home/vynguye/bot/python-cep-bot/eliza_bot/target/eliza-bot-1.0-SNAPSHOT-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="java-bin"/>
 </classpath>

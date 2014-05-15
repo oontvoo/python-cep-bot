@@ -24,7 +24,7 @@
 		<link>
 			<name>eliza</name>
 			<type>2</type>
-			<location>/home/vynguye/bot/bash-irc-bot/modules/talk/eliza_bot/src/main/java</location>
+			<location>/home/vynguye/bot/python-cep-bot/eliza_bot/src/main/java</location>
 		</link>
 	</linkedResources>
 </projectDescription>

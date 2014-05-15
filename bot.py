@@ -18,10 +18,10 @@ ircPass = "<password | needed for SSL>"
 # bot's states
 count = 0
 drActive = True
-SB_HOME = "/home/vynguye/repo/7.4.1_quickfix/branches/southstation/streambase"
+SB_HOME = "/opt/streambase"
 
 # streambase properties
-URL="sb://localhost:36179"
+URL="sb://localhost:43458"
 DEFAULT_TIMEOUT = 500 #ms 
 client = None
 schema = None
@@ -37,6 +37,10 @@ def ircMessage(msg, sender = None):
         rawSend("PRIVMSG " + ircChannel + " :" + msg + "\r\n")
     else:
         ircMessage("@" + sender + ": " + msg)
+
+def ircPrivateMsg(msg, sender):
+    # PRIVMSG awesomebot :awesomebot:
+    rawSend("PRIVMSG " + sender + " :" + sender + ": " + msg + "\r\n")
 
 def ircRegister():
     rawSend("USER " + ircUser + " " + ircUser + " " + ircUser + " :" + ircUser)
@@ -123,10 +127,16 @@ def welcome(line):
             if (not ircNick == new_user) and  "#" + ircChannel + " +v " + new_user + " : active" in split_str[1]:
                 ircMessage("Welcome [back]!", new_user)
 
+def isPrivateMsg(line):
+    # PRIVMSG awesomebot
+    # awesomebot :awesomebot:
+    return  "PRIVMSG " + ircNick + " " in line
+
 def respond(line):
     sender = getSender(line)
     msg = getMsg(line)
-    
+    isPrivate = isPrivateMsg(line)
+
     ##############################################
     #                  commands
     #############################################
@@ -144,8 +154,7 @@ def respond(line):
         stdOut = os.popen(sbCmd)
         res = stdOut.read()
         print("RESPONSE: " + res)
-        ircMessage(res, sender)
-
+       
     ###############################################
     #           regular conversational chat
     ##############################################
@@ -153,7 +162,13 @@ def respond(line):
         res = "Hi," + sender + "! This is all I can say for now"
         if isDoctorActive():
             res = getDoctorResponse(msg, sender)
+        
 
+    ###### SEND the response #####
+    if isPrivate:
+        print("Got private msg")
+        ircPrivateMsg(res, sender)
+    else:
         ircMessage(res, sender)
 
 def setUpDoctor():

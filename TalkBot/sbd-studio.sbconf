@@ -7,15 +7,13 @@
 		automatically over-written.
 	-->
     <global>
-        <module-search directory="../TalkBot"/>
-        <operator-resource-search directory="../TalkBot"/>
+        <module-search directory="../../bot/python-cep-bot/TalkBot"/>
+        <operator-resource-search directory="../../bot/python-cep-bot/TalkBot"/>
     </global>
     <java-vm>
         <jar file="${STREAMBASE_HOME}/lib/junit.jar"/>
         <jar file="${STREAMBASE_HOME}/lib/sbtest.jar"/>
         <jar file="${STREAMBASE_HOME}/lib/sbtest-unit.jar"/>
-        <dir path="../TalkBot/java-bin"/>
-        <dir path="../TalkBot/java-bin"/>
-        <jar file="/home/vynguye/bot/bash-irc-bot/modules/talk/talk_bot.jar"/>
+        <dir path="/home/vynguye/bot/python-cep-bot/TalkBot/java-bin"/>
     </java-vm>
 </streambase-configuration>
