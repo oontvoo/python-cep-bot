@@ -2,7 +2,7 @@
 # export PYTHONPATH=/opt/streambase/lib64/python2.6
 # export STREAMBASE_HOME=/opt/streambase
 
-import socket, ssl, sys, urllib2, time, string, httplib, os, streambase as sb
+import socket, ssl, sys, urllib2, time, string, httplib, os, subprocess, streambase as sb
 
 # server properties
 irc = ssl.wrap_socket(socket.socket())        
@@ -33,10 +33,14 @@ def ircConnect():
     irc.connect((ircServer, ircSSLPort))
 
 def ircMessage(msg, sender = None):
-    if sender is None:
-        rawSend("PRIVMSG " + ircChannel + " :" + msg + "\r\n")
+    if isinstance(msg, basestring):
+        if sender is None:
+            rawSend("PRIVMSG " + ircChannel + " :" + msg + "\r\n")
+        else:
+            ircMessage("@" + sender + ": " + msg)
     else:
-        ircMessage("@" + sender + ": " + msg)
+        for st in msg:            
+            ircMessage(st, sender)
 
 def ircPrivateMsg(msg, sender):
     # PRIVMSG awesomebot :awesomebot:
@@ -77,7 +81,6 @@ def getSender(line):
     else:
         return None
 
-# get message (presumably addressing me)
 def getMsg(line):
     splitTks = string.split(line, ircNick + ":")
     if len(splitTks) > 1:
@@ -132,6 +135,33 @@ def isPrivateMsg(line):
     # awesomebot :awesomebot:
     return  "PRIVMSG " + ircNick + " " in line
 
+def areAllowedArgs(args):
+    # TODO: probably don't want them to run "checkout" commands!!!!
+    return True
+
+def getOutput(cmd, timeout=5):
+    # execute the command
+    p = subprocess.Popen(cmd,
+                         stderr=subprocess.STDOUT,  # merge stdout and stderr
+                         stdout=subprocess.PIPE,
+                         shell=True)
+    # poll for terminated status till timeout is reached
+    t_beginning = time.time()
+    seconds_passed = 0
+    while True:
+        if p.poll() is not None:
+            out, err = p.communicate()
+            print(out)
+            res = string.split(out.strip(), "\n")
+            break
+        seconds_passed = time.time() - t_beginning
+        if timeout and seconds_passed > timeout:
+            p.terminate()
+            res = "NO repsonse! [TIMEDOUT = " + str(timeout) + " secs]"
+            break
+        time.sleep(0.1)
+    return res
+
 def respond(line):
     sender = getSender(line)
     msg = getMsg(line)
@@ -154,7 +184,21 @@ def respond(line):
         stdOut = os.popen(sbCmd)
         res = stdOut.read()
         print("RESPONSE: " + res)
-       
+
+    # test args
+    elif get_cmd("test_args") in msg:
+        args = string.split(msg, get_cmd("test_args"))[1]
+        res = getOutput("java Simple " + args)
+
+    # sbx command
+    elif get_cmd("sbx") in msg:
+        args = string.split(msg, get_cmd("sbx"))[1]
+        print("args: " + args)
+        if (areAllowedArgs(args)):
+            res =["Executing  \"sbx " + args + "\"",
+                  getOutput("sbx " + args)]
+        else:
+            res = args + " is NOT allowed!"
     ###############################################
     #           regular conversational chat
     ##############################################
@@ -184,8 +228,6 @@ def setUpDoctor():
         drActive = True
     except:
         pass
-    
-
 
 def setVariables():
     if len(sys.argv) != 5:
