@@ -23,6 +23,6 @@ Available commands:
 **<>go away** : kills the bot.
 
 
-Last but not least, *doctor mode*.
+Last but not least, **doctor mode**.
 
-     Usage: <say whatever you want!>
+     Usage: **<say whatever you want!>**
