@@ -1,7 +1,7 @@
 Available commands:
 
-*<>help* : prints this
-*<>eval* : evaluates a streambase expression
+**<>help** : prints this
+**<>eval** : evaluates a streambase expression
       
        Usage: <>eval <CEP_EXPR>
        Eg.,
