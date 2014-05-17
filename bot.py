@@ -19,6 +19,7 @@ ircPass = "<password | needed for SSL>"
 count = 0
 drActive = False
 SB_HOME = "/opt/streambase"
+help_text = None
 
 # streambase properties
 URL="sb://localhost:43458"
@@ -177,6 +178,13 @@ def respond(line):
         ircMessage(res)
         sys.exit("Received exit command from " + sender + " | time of death: " + time.ctime())
         
+    # prints help
+    elif get_cmd("help") in msg:
+        global help_text
+        if help_text is None:
+            help_text = open("help_plaintext.txt", "r").read().strip().split('\n')
+        res = help_text
+
     # eval an expression with CEP
     elif get_cmd("eval") in msg:
         sbCmd = SB_HOME + "/bin/sbd --eval " + "'" + unEscapeCmd("eval", msg) + "'"

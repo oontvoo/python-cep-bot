@@ -12,7 +12,7 @@ Available commands:
                 ; this returns 30 (because 1^2 + 2^2 + 3^2 + 4 ^2 = 30)
                 <>eval function f(a int) -> int { if a > 0 then a * a + f(a - 1) else 0 }(4)
 
-**<>sbx** : execute an sbx command
+**<>sbx** : executes an sbx command
       
       Usage: <>sbx <ARGS>
       Eg.,

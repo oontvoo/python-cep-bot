@@ -1,0 +1,10 @@
+Available commands:
+
+<>help : prints this
+<>eval : evaluates a streambase expression      
+<>sbx : executes an sbx command      
+<>go away : kills the bot.
+
+Last but not least, doctor mode: say whatever you want
+----------
+More details: https://github.com/oontvoo/python-cep-bot/wiki
