@@ -24,4 +24,4 @@ Available commands:
 
 Last but not least, doctor mode.
 
-Usage: <say whatever you want!>
+     Usage: <say whatever you want!>
